@@ -56,7 +56,7 @@ module Spree
     define_model_callbacks :unpause, only: [:before]
     before_unpause :can_unpause?, :set_next_occurrence_at_after_unpause
     define_model_callbacks :process, only: [:after]
-    after_process :notify_reoccurrence, if: :reoccurrence_notifiable?
+    # after_process :notify_reoccurrence, if: :reoccurrence_notifiable?
     define_model_callbacks :cancel, only: [:before]
     before_cancel :set_cancellation_reason, if: :can_set_cancellation_reason?
 
@@ -65,8 +65,8 @@ module Spree
     before_update :not_cancelled?
     before_validation :update_price, on: :update, if: :variant_id_changed?
     before_update :next_occurrence_at_not_changed?, if: :paused?
-    after_update :notify_user, if: :user_notifiable?
-    after_update :notify_cancellation, if: :cancellation_notifiable?
+    # after_update :notify_user, if: :user_notifiable?
+    # after_update :notify_cancellation, if: :cancellation_notifiable?
 
     def process
       new_order = recreate_order if deliveries_remaining?
