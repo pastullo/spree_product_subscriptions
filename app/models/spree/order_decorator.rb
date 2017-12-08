@@ -21,6 +21,7 @@ Spree::Order.class_eval do
   private
 
     def enable_subscriptions
+      return unless self.payment_required?
       subscriptions.each do |subscription|
         subscription.update(
           source: payments.first.source,
