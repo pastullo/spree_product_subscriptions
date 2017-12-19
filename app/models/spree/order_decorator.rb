@@ -4,7 +4,7 @@ Spree::Order.class_eval do
   has_one :parent_subscription, through: :order_subscription, source: :subscription
   has_many :subscriptions, class_name: "Spree::Subscription",
                            foreign_key: :parent_order_id,
-                           dependent: :restrict_with_error
+                           dependent: :destroy
 
   self.state_machine.after_transition to: :complete, do: :enable_subscriptions, if: :any_disabled_subscription?
 
