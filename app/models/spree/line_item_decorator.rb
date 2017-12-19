@@ -4,7 +4,7 @@ Spree::LineItem.class_eval do
 
   after_create :create_subscription!, if: :subscribable?
   after_update :update_subscription_quantity, if: :can_update_subscription_quantity?
-  after_update :update_subscription_attributes, if: :can_update_subscription_attributes?
+  # after_update :update_subscription_attributes, if: :can_update_subscription_attributes?
   after_destroy :destroy_associated_subscription!, if: :subscription?
 
   def subscription_attributes_present?
@@ -19,7 +19,8 @@ Spree::LineItem.class_eval do
   end
 
   def subscribable?
-    subscribe.present? && subscribe != "0"
+    # subscribe.present? && subscribe != "0"
+    product.subscribable? && product.subscription_frequencies.any?
   end
 
   def subscription?
@@ -38,9 +39,9 @@ Spree::LineItem.class_eval do
 
     def subscription_attributes
       {
-        subscription_frequency_id: subscription_frequency_id,
+        subscription_frequency_id: product.subscription_frequencies.first.try(:id),
         price: variant.price,
-        delivery_number: delivery_number,
+        delivery_number: 9999,
         variant: variant,
         quantity: quantity
       }
