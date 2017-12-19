@@ -24,10 +24,10 @@ Spree::Order.class_eval do
       return unless self.payment_required?
       subscriptions.each do |subscription|
         subscription.update(
-          source: payments.first.source,
+          source: payments.first.try(:source),
           enabled: true,
-          ship_address: ship_address.clone,
-          bill_address: bill_address.clone
+          ship_address_id: ship_address_id,
+          bill_address_id: bill_address_id
         )
       end
     end
