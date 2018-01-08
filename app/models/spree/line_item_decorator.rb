@@ -20,9 +20,8 @@ Spree::LineItem.class_eval do
 
   def subscribable?
     # subscribe.present? && subscribe != "0"
-    # return false if user has existing subscription with the same variant
+    # we skip it if the user already has a subscription for this variant
     if order.user.present? and order.user.subscriptions.exists?(variant: variant)
-      puts "========!!! Subscription for this user/variant exists already. Stop!"
       return false
     end
     product.subscribable? && product.subscription_frequencies.any?
