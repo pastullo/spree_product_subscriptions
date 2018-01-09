@@ -19,9 +19,8 @@ Spree::LineItem.class_eval do
   end
 
   def subscribable?
-    # subscribe.present? && subscribe != "0"
-    # we skip it if the user already has a subscription for this variant
-    if order.user.present? and order.user.subscriptions.exists?(variant: variant)
+    # skip if the user already has an active subscription for this variant
+    if order.user.present? and order.user.subscriptions.processable.exists?(variant: variant)
       return false
     end
     product.subscribable? && product.subscription_frequencies.any?
