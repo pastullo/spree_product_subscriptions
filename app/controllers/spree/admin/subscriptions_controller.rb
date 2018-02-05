@@ -54,9 +54,9 @@ module Spree
 
         def collection
           @search = super.active.ransack(params[:q])
+          @search.sorts = 'created_at desc' if @search.sorts.empty?
           @collection = @search.result.includes(:frequency, :complete_orders, variant: :product)
                                       .references(:complete_orders)
-                                      .order(created_at: :desc)
                                       .page(params[:page])
         end
 
