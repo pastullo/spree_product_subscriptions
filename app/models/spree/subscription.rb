@@ -49,7 +49,7 @@ module Spree
       validates :cancellation_reasons, :cancelled_at, if: :cancelled
       validates :ship_address, :bill_address, :next_occurrence_at, :source, if: :enabled?
     end
-    validate :next_occurrence_at_range, if: :next_occurrence_at
+    # validate :next_occurrence_at_range, if: :next_occurrence_at
 
     define_model_callbacks :pause, only: [:before]
     before_pause :can_pause?
