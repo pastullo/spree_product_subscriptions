@@ -147,7 +147,8 @@ module Spree
       end
 
       def next_occurrence_at_value
-        deliveries_remaining? ? Time.current + frequency.months_count.month : next_occurrence_at
+        # deliveries_remaining? ? Time.current + frequency.months_count.month : next_occurrence_at
+        (Time.current + 28.days).change(hour: 7)
       end
 
       def can_set_next_occurrence_at?
