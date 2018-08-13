@@ -33,7 +33,7 @@ module Spree
     scope :disabled, -> { where(enabled: false) }
     scope :active, -> { where(enabled: true) }
     scope :not_cancelled, -> { where(cancelled_at: nil) }
-    scope :with_appropriate_delivery_time, -> { where("next_occurrence_at <= :current_date", current_date: Time.current) }
+    scope :with_appropriate_delivery_time, -> { where("next_occurrence_at <= :current_date", current_date: Time.current.end_of_day) }
     scope :processable, -> { unpaused.active.not_cancelled }
     scope :eligible_for_subscription, -> { processable.with_appropriate_delivery_time }
     scope :with_parent_orders, -> (orders) { where(parent_order: orders) }
@@ -147,8 +147,7 @@ module Spree
       end
 
       def next_occurrence_at_value
-        # deliveries_remaining? ? Time.current + frequency.months_count.month : next_occurrence_at
-        (Time.current + 28.days).change(hour: 7)
+        (Time.current + 28.days)
       end
 
       def can_set_next_occurrence_at?
