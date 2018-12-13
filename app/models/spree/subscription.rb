@@ -1,6 +1,6 @@
 module Spree
   class Subscription < Spree::Base
-
+    RENEW_PERIOD = 30.days
     attr_accessor :cancelled
 
     include Spree::Core::NumberGenerator.new(prefix: 'S')
@@ -147,7 +147,7 @@ module Spree
       end
 
       def next_occurrence_at_value
-        (Time.current + 28.days)
+        (Time.current + RENEW_PERIOD)
       end
 
       def can_set_next_occurrence_at?
